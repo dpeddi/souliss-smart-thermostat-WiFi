@@ -3,10 +3,12 @@
 #include "preferences.h"
 #include <MenuSystem.h>
 #include "language.h"
-#include "Ucglib.h"
+//#include "Ucglib.h"
 #include "crono.h"
 #include "ntp.h"
 #include "read_save.h"
+
+extern ReadSave readSave;
 
 boolean bMenuEnabled;
 int iDisplayBright;
@@ -139,64 +141,74 @@ void on_itemBack_selected(MenuItem* p_menu_item)
 void on_item_perc100_selected(MenuItem* p_menu_item)
 {
   iDisplayBright = 100;
-  save_spiffs_prefs(iDisplayBright, bClock, tZone, bDayLightSavingTime, bCrono, bCronoLearn, bSystem, bLayout1, bLayout2, fOffsetDHT);
+  readSave.setDisplayBright(iDisplayBright);
+  readSave.save_spiffs_prefs();
 }
 
 void on_item_perc80_selected(MenuItem* p_menu_item)
 {
   iDisplayBright = 80;
-  save_spiffs_prefs(iDisplayBright, bClock, tZone, bDayLightSavingTime, bCrono, bCronoLearn, bSystem, bLayout1, bLayout2, fOffsetDHT);
+  readSave.setDisplayBright(iDisplayBright);
+  readSave.save_spiffs_prefs();
 }
 
 void on_item_perc60_selected(MenuItem* p_menu_item)
 {
   iDisplayBright = 60;
-  save_spiffs_prefs(iDisplayBright, bClock, tZone, bDayLightSavingTime, bCrono, bCronoLearn, bSystem, bLayout1, bLayout2, fOffsetDHT);
-
+  readSave.setDisplayBright(iDisplayBright);
+  readSave.save_spiffs_prefs();
 }
 
 void on_item_perc50_selected(MenuItem* p_menu_item)
 {
   iDisplayBright = 50;
-  save_spiffs_prefs(iDisplayBright, bClock, tZone, bDayLightSavingTime, bCrono, bCronoLearn, bSystem, bLayout1, bLayout2, fOffsetDHT);
+  readSave.setDisplayBright(iDisplayBright);
+  readSave.save_spiffs_prefs();
 }
 
 void on_item_perc30_selected(MenuItem* p_menu_item)
 {
   iDisplayBright = 30;
-  save_spiffs_prefs(iDisplayBright, bClock, tZone, bDayLightSavingTime, bCrono, bCronoLearn, bSystem, bLayout1, bLayout2, fOffsetDHT);
+  readSave.setDisplayBright(iDisplayBright);
+  readSave.save_spiffs_prefs();
 }
 
 void on_item_perc5_selected(MenuItem* p_menu_item)
 {
   iDisplayBright = 5;
-  save_spiffs_prefs(iDisplayBright, bClock, tZone, bDayLightSavingTime, bCrono, bCronoLearn, bSystem, bLayout1, bLayout2, fOffsetDHT);
+  readSave.setDisplayBright(iDisplayBright);
+  readSave.save_spiffs_prefs();
 }
 
 void on_item_perc2_selected(MenuItem* p_menu_item)
 {
   iDisplayBright = 2;
-  save_spiffs_prefs(iDisplayBright, bClock, tZone, bDayLightSavingTime, bCrono, bCronoLearn, bSystem, bLayout1, bLayout2, fOffsetDHT);
+  readSave.setDisplayBright(iDisplayBright);
+  readSave.save_spiffs_prefs();
 }
 
 void on_item_clockON_selected(MenuItem* p_menu_item)
 {
   SERIAL_OUT.println("on_item_clockON_selected");
   bClock = true;
-  save_spiffs_prefs(iDisplayBright, bClock, tZone, bDayLightSavingTime, bCrono, bCronoLearn, bSystem, bLayout1, bLayout2, fOffsetDHT);
+  readSave.setClock(bClock);
+  readSave.save_spiffs_prefs();
 }
+
 void on_item_clockOFF_selected(MenuItem* p_menu_item)
 {
   SERIAL_OUT.println("on_item_clockOFF_selected");
   bClock = false;
-  save_spiffs_prefs(iDisplayBright, bClock, tZone, bDayLightSavingTime, bCrono, bCronoLearn, bSystem, bLayout1, bLayout2, fOffsetDHT);
+  readSave.setClock(bClock);
+  readSave.save_spiffs_prefs();
 }
 
 void on_item_Timezone0_selected(MenuItem* p_menu_item)
 {
   SERIAL_OUT.println("on_item_Timezone0_selected");
   tZone = 0;
-  save_spiffs_prefs(iDisplayBright, bClock, tZone, bDayLightSavingTime, bCrono, bCronoLearn, bSystem, bLayout1, bLayout2, fOffsetDHT);
+  readSave.setTimeZone(tZone);
+  readSave.save_spiffs_prefs();
   initNTP();
 }
 
@@ -204,28 +216,32 @@ void on_item_Timezone1_selected(MenuItem* p_menu_item)
 {
   SERIAL_OUT.println("on_item_Timezone1_selected");
   tZone = 1;
-  save_spiffs_prefs(iDisplayBright, bClock, tZone, bDayLightSavingTime, bCrono, bCronoLearn, bSystem, bLayout1, bLayout2, fOffsetDHT);
+  readSave.setTimeZone(tZone);
+  readSave.save_spiffs_prefs();
   initNTP();
 }
 void on_item_Timezone2_selected(MenuItem* p_menu_item)
 {
   SERIAL_OUT.println("on_item_Timezone2_selected");
   tZone = 2;
-  save_spiffs_prefs(iDisplayBright, bClock, tZone, bDayLightSavingTime, bCrono, bCronoLearn, bSystem, bLayout1, bLayout2, fOffsetDHT);
+  readSave.setTimeZone(tZone);
+  readSave.save_spiffs_prefs();
   initNTP();
 }
 void on_item_Timezone3_selected(MenuItem* p_menu_item)
 {
   SERIAL_OUT.println("on_item_Timezone3_selected");
   tZone = 3;
-  save_spiffs_prefs(iDisplayBright, bClock, tZone, bDayLightSavingTime, bCrono, bCronoLearn, bSystem, bLayout1, bLayout2, fOffsetDHT);
+  readSave.setTimeZone(tZone);
+  readSave.save_spiffs_prefs();
   initNTP();
 }
 void on_item_Timezone4_selected(MenuItem* p_menu_item)
 {
   SERIAL_OUT.println("on_item_Timezone4_selected");
   tZone = 4;
-  save_spiffs_prefs(iDisplayBright, bClock, tZone, bDayLightSavingTime, bCrono, bCronoLearn, bSystem, bLayout1, bLayout2, fOffsetDHT);
+  readSave.setTimeZone(tZone);
+  readSave.save_spiffs_prefs();
   initNTP();
 }
 
@@ -233,7 +249,8 @@ void on_item_DayLightSavingTimeON_selected(MenuItem* p_menu_item)
 {
   SERIAL_OUT.println("on_item_DayLightSavingTimeON");
   bDayLightSavingTime = true;
-  save_spiffs_prefs(iDisplayBright, bClock, tZone, bDayLightSavingTime, bCrono, bCronoLearn, bSystem, bLayout1, bLayout2, fOffsetDHT);
+  readSave.setDayLightSavingTime(bDayLightSavingTime);
+  readSave.save_spiffs_prefs();
   initNTP();
 }
 
@@ -241,10 +258,10 @@ void on_item_DaylightSavingTimeOFF_selected(MenuItem* p_menu_item)
 {
   SERIAL_OUT.println("on_item_DaylightSavingTimeOFF");
   bDayLightSavingTime = false;
-  save_spiffs_prefs(iDisplayBright, bClock, tZone, bDayLightSavingTime, bCrono, bCronoLearn, bSystem, bLayout1, bLayout2, fOffsetDHT);
+  readSave.setTimeZone(tZone);
+  readSave.save_spiffs_prefs();
   initNTP();
 }
-
 
 void on_item_cronoON_selected(MenuItem* p_menu_item)
 {
@@ -252,15 +269,18 @@ void on_item_cronoON_selected(MenuItem* p_menu_item)
   bCrono = true;
   SERIAL_OUT.print("Variabile bCrono:");
   SERIAL_OUT.println(bCrono);
-  save_spiffs_prefs(iDisplayBright, bClock, tZone, bDayLightSavingTime, bCrono, bCronoLearn, bSystem, bLayout1, bLayout2, fOffsetDHT);
+  readSave.setChrono(bCrono);
+  readSave.save_spiffs_prefs();
 }
+
 void on_item_cronoOFF_selected(MenuItem* p_menu_item)
 {
   SERIAL_OUT.println("on_item_cronoOFF_selected");
   bCrono = false;
   SERIAL_OUT.print("Variabile bCrono:");
   SERIAL_OUT.println(bCrono);
-  save_spiffs_prefs(iDisplayBright, bClock, tZone, bDayLightSavingTime, bCrono, bCronoLearn, bSystem, bLayout1, bLayout2, fOffsetDHT);
+  readSave.setChrono(bCrono);
+  readSave.save_spiffs_prefs();
 }
 
 void on_item_cronoSET_selected(MenuItem* p_menu_item)
@@ -285,21 +305,24 @@ void on_item_cronoLEARN_selected(MenuItem* p_menu_item)
 {
   SERIAL_OUT.println("on_item_cronoLEARN_selected");
   bCronoLearn = true;
-  save_spiffs_prefs(iDisplayBright, bClock, tZone, bDayLightSavingTime, bCrono, bCronoLearn, bSystem, bLayout1, bLayout2, fOffsetDHT);
+  readSave.setCronoLearn(bCronoLearn);
+  readSave.save_spiffs_prefs();
 }
 
 void on_item_systemEnabledON_selected(MenuItem* p_menu_item)
 {
   SERIAL_OUT.println("on_item_systemEnabledON_selected");
   setSystem(true);
-  save_spiffs_prefs(iDisplayBright, bClock, tZone, bDayLightSavingTime, bCrono, bCronoLearn, bSystem, bLayout1, bLayout2, fOffsetDHT);
+  readSave.setSystem(bSystem);
+  readSave.save_spiffs_prefs();
 }
 
 void on_item_systemEnabledOFF_selected(MenuItem* p_menu_item)
 {
   SERIAL_OUT.println("on_item_systemEnabledOFF_selected");
   setSystem(false);
-  save_spiffs_prefs(iDisplayBright, bClock, tZone, bDayLightSavingTime, bCrono, bCronoLearn, bSystem, bLayout1, bLayout2, fOffsetDHT);
+  readSave.setSystem(bSystem);
+  readSave.save_spiffs_prefs();
 }
 
 void on_item_layout1_selected(MenuItem* p_menu_item)
@@ -307,7 +330,10 @@ void on_item_layout1_selected(MenuItem* p_menu_item)
   SERIAL_OUT.println("on_item_layout1_selected");
   bLayout1 = true;
   bLayout2 = false;
-  save_spiffs_prefs(iDisplayBright, bClock, tZone, bDayLightSavingTime, bCrono, bCronoLearn, bSystem, bLayout1, bLayout2, fOffsetDHT);
+
+  readSave.setLayout1(bLayout1);
+  readSave.setLayout2(bLayout2);
+  readSave.save_spiffs_prefs();
 }
 
 void on_item_layout2_selected(MenuItem* p_menu_item)
@@ -315,13 +341,15 @@ void on_item_layout2_selected(MenuItem* p_menu_item)
   SERIAL_OUT.println("on_item_layout2_selected");
   bLayout1 = false;
   bLayout2 = true;
-  save_spiffs_prefs(iDisplayBright, bClock, tZone, bDayLightSavingTime, bCrono, bCronoLearn, bSystem, bLayout1, bLayout2, fOffsetDHT);
+
+  readSave.setLayout1(bLayout1);
+  readSave.setLayout2(bLayout2);
+  readSave.save_spiffs_prefs();
 }
 
 void on_item_system1_selected(MenuItem* p_menu_item)
 {
   bDoSystemReset=true;
-
 }
 
 
@@ -469,7 +497,7 @@ boolean getProgCrono() {
   return bProgCrono;
 }
 boolean getClock() {
-  return bClock;
+  return bClock;  //should be into readSave
 }
 
 boolean getCronoLearn() {
@@ -504,20 +532,21 @@ void ReadAllSettingsFromPreferences() {
   bDayLightSavingTime = DAYLIGHTSAVINGTIME;
   fOffsetDHT = OFFSET_DHT;
 
-  save_spiffs_prefs(iDisplayBright, bClock, tZone, bDayLightSavingTime, bCrono, bCronoLearn, bSystem, bLayout1, bLayout2, fOffsetDHT);
+  readSave.save_spiffs_prefs(iDisplayBright, (int) bClock, tZone, (int) bDayLightSavingTime, (int) bCrono, (int) bCronoLearn, (int) bSystem, (int) bLayout1, (int) bLayout2, fOffsetDHT);
 }
+
 void ReadAllSettingsFromSPIFFS() {
   //SPIFFS
   SERIAL_OUT.println(" ");
   SERIAL_OUT.print("Read All Settings From SPIFFS.... ");
-  iDisplayBright = read_spiffs_prefs("Luminosita");
-  bClock = read_spiffs_prefs("Orologio");
-  bCrono = read_spiffs_prefs("Crono");
-  bCronoLearn = read_spiffs_prefs("CronoLearn");
-  bSystem = read_spiffs_prefs("Dispositivo");
-  bLayout1 = read_spiffs_prefs("Layout1");
-  bLayout2 = read_spiffs_prefs("Layout2");
-  tZone = read_spiffs_prefs("Tzone");
-  bDayLightSavingTime = read_spiffs_prefs("DayLightSavingTime");
-  fOffsetDHT = read_spiffs_prefs("OffsetDHT");
+  iDisplayBright = readSave.read_spiffs_prefs("Luminosita");
+  bClock = readSave.read_spiffs_prefs("Orologio");
+  bCrono = readSave.read_spiffs_prefs("Crono");
+  bCronoLearn = readSave.read_spiffs_prefs("CronoLearn");
+  bSystem = readSave.read_spiffs_prefs("Dispositivo");
+  bLayout1 = readSave.read_spiffs_prefs("Layout1");
+  bLayout2 = readSave.read_spiffs_prefs("Layout2");
+  tZone = readSave.read_spiffs_prefs("Tzone");
+  bDayLightSavingTime = readSave.read_spiffs_prefs("DayLightSavingTime");
+  fOffsetDHT = readSave.read_spiffs_prefs("OffsetDHT");
 }

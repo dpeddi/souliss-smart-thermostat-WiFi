@@ -1,7 +1,10 @@
+#ifndef NTP_H
+#define NTP_H
+
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
-#include <TimeLib.h> 
+#include <TimeLib.h>
 
 time_t getNtpTime();
 void sendNTPpacket(IPAddress);
@@ -17,3 +20,5 @@ int getNTPhour();
 int getNTPminute();
 
 void initNTP();
+
+#endif

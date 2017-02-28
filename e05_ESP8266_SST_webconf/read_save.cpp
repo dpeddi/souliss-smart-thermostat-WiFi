@@ -4,7 +4,64 @@
 #include "FS.h"
 #include <ArduinoJson.h>
 
-void save_spiffs_prefs(int json_iDisplayBright, int json_bClock, int json_timeZone, int json_DayLightSavingTime, int json_bCrono, int json_bCronoLearn, int json_bSystem, int json_bLayout1, int json_bLayout2, float json_fOffsetDHT) {
+//Constructor
+ReadSave::ReadSave(){
+};
+
+void ReadSave::setDisplayBright(int displayBright) {
+  json_iDisplayBright = displayBright;
+}
+
+void ReadSave::setClock(int clock) {
+  json_bClock = clock;
+}
+
+void ReadSave::setTimeZone(int timeZone) {
+  json_timeZone = timeZone;
+}
+
+void ReadSave::setDayLightSavingTime(int dayLightSavingTime) {
+  json_DayLightSavingTime = dayLightSavingTime;
+}
+
+void ReadSave::setChrono(int crono) {
+  json_bCrono = crono;
+}
+
+void ReadSave::setCronoLearn(int cronoLearn) {
+  json_bCronoLearn = cronoLearn;
+}
+
+void ReadSave::setSystem(int system) {
+  json_bSystem = system;
+}
+
+void ReadSave::setLayout1(int layout1) {
+  json_bLayout1 = layout1;
+}
+
+void ReadSave::setLayout2(int layout2) {
+  json_bLayout2 = layout2;
+}
+
+void ReadSave::setOffsetDHT(float offsetDHT) {
+  json_fOffsetDHT = offsetDHT;
+}
+
+void ReadSave::save_spiffs_prefs(int iDisplayBright, int bClock, int timeZone, int DayLightSavingTime, int bCrono, int bCronoLearn, int bSystem, int bLayout1, int bLayout2, float fOffsetDHT) {
+  json_fOffsetDHT = iDisplayBright;
+  json_bClock = bClock;
+  json_timeZone = timeZone;
+  json_DayLightSavingTime = DayLightSavingTime;
+  json_bCrono = bCrono;
+  json_bCronoLearn = bCronoLearn;
+  json_bSystem = bSystem;
+  json_bLayout1 = bLayout1;
+  json_bLayout2 = bLayout1;
+  save_spiffs_prefs();
+}
+
+void ReadSave::save_spiffs_prefs() {
   SPIFFS.begin();
   StaticJsonBuffer<200> jsonBuffer;
   JsonObject& root = jsonBuffer.createObject();
@@ -37,7 +94,7 @@ void save_spiffs_prefs(int json_iDisplayBright, int json_bClock, int json_timeZo
   sst_spiffs.close();
 }
 
-int read_spiffs_prefs(const char*  valuedaleggere) {
+int ReadSave::read_spiffs_prefs(const char*  valuedaleggere) {
   File  sst_spiffs_inlettura = SPIFFS.open("/sst_settings.json", "r");
   if (!sst_spiffs_inlettura) {
     Serial.println("sst_settings.json open failed");
@@ -62,8 +119,7 @@ int read_spiffs_prefs(const char*  valuedaleggere) {
   return risultatoparsed;
 }
 
-
-void spiffs_Reset() {
+void ReadSave::spiffs_Reset() {
   Serial.println("Reset SST");
   Serial.print("SPIFFS Formatting... ");
   if (SPIFFS.format()) {
@@ -73,6 +129,3 @@ void spiffs_Reset() {
   }
 
 }
-
-
-

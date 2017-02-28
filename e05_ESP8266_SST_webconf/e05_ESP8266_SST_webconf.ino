@@ -95,6 +95,9 @@ MenuSystem* myMenu;
 // Use hardware SPI
 Ucglib_ILI9341_18x240x320_HWSPI ucg(/*cd=*/ 2 , /*cs=*/ 15);
 
+// Define readsave object for storing configuration
+ReadSave readSave;
+
 //WBServer
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 AsyncWebServer server(80);
@@ -122,7 +125,7 @@ void setup()
   SERIAL_OUT.begin(115200);
   Serial.setDebugOutput(true);  //debug WBServer
 
-  
+
   //SPIFFS
   /////////////////////////////////////////////////////////////////////////////////////////////////////////
   SPIFFS.begin();
@@ -210,10 +213,10 @@ void setup()
   initMenu();
   myMenu = getMenu();
 
-  
-  //OTA-WBServer  
+
+  //OTA-WBServer
   setup_OTA_WBServer();
-  
+
   // Init HomeScreen
   initScreen();
 }
@@ -409,7 +412,7 @@ void loop()
               setUIChanged();
               menu = 0;
             }
-          yield();  
+          yield();
           }
           //restore encoder value
           setEncoderValue(setpoint);
@@ -449,7 +452,7 @@ void loop()
       //*************************************************************************
       Logic_Thermostat(SLOT_THERMOSTAT);
       // Start the heater and the fans
-      nDigOut(RELE, Souliss_T3n_HeatingOn, SLOT_THERMOSTAT);    // Heater 
+      nDigOut(RELE, Souliss_T3n_HeatingOn, SLOT_THERMOSTAT);    // Heater
       S_relestatus_WBS=(mOutput(SLOT_THERMOSTAT) & Souliss_T3n_HeatingOn);//to WBServer
 
 
@@ -672,14 +675,14 @@ void loop()
         }
         if (B_powerfull_WBS==1) {
           B_away_WBS=0;
-          B_is_away_WBS=0;          
+          B_is_away_WBS=0;
           B_is_powerfull_WBS=1;
           setSetpoint(getPOWERFULLtemperature());
-          setEncoderValue(getPOWERFULLtemperature());          
+          setEncoderValue(getPOWERFULLtemperature());
           Serial.print("Powerfull function ON, Setpoint to: ");Serial.println(setpoint);
         }
       }
-      
+
     }//end SLOW_50s
 
     SLOW_70s() {
@@ -696,7 +699,7 @@ void loop()
             }
           }
       }
-      
+
 
     }
 
@@ -723,8 +726,8 @@ void loop()
 }
 
 
-void SST_Reset() {  
-  spiffs_Reset();
+void SST_Reset() {
+  readSave.spiffs_Reset();
   ESP.reset();
 }
 
@@ -957,4 +960,3 @@ void handleBody(AsyncWebServerRequest *request, uint8_t *data, size_t len, size_
   yield();
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-

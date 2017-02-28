@@ -7,6 +7,8 @@
 
 int itrytosync=0;
 
+extern ReadSave readSave;
+
 //NTP
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 unsigned int localPort = 8888;  // local port to listen for UDP packets
@@ -63,23 +65,23 @@ time_t getNtpTime()
       secsSince1900 |= (unsigned long)packetBuffer[41] << 16;
       secsSince1900 |= (unsigned long)packetBuffer[42] << 8;
       secsSince1900 |= (unsigned long)packetBuffer[43];
-      int tZonetemp =read_spiffs_prefs("Tzone");
-      int tDayLighttemp = read_spiffs_prefs("DayLightSavingTime");
+      int tZonetemp = readSave.read_spiffs_prefs("Tzone");
+      int tDayLighttemp = readSave.read_spiffs_prefs("DayLightSavingTime");
 
       if (tDayLighttemp == 0){
         #ifdef DEBUG
           SERIAL_OUT.print("This is NTP Response with tzone: ");SERIAL_OUT.print(tZonetemp);SERIAL_OUT.println(" and tDayLighttemp OFF");
         #endif
-        return secsSince1900 - 2208988800UL + tZonetemp * SECS_PER_HOUR;       
+        return secsSince1900 - 2208988800UL + tZonetemp * SECS_PER_HOUR;
         } else {
         #ifdef DEBUG
           SERIAL_OUT.print("This is NTP Response with tzone: ");SERIAL_OUT.print(tZonetemp);SERIAL_OUT.println(" and tDayLighttemp ON");
         #endif
         return secsSince1900 - 2208988800UL + (tZonetemp + 1) * SECS_PER_HOUR;
-        } 
+        }
     } else {
     delay(100);
-  } 
+  }
   }
     if (itrytosync<5) {
       ++itrytosync;
@@ -127,9 +129,9 @@ String digitalDataDisplay() {
 }
 
 //Crono var
-//Day of week Sunday is day 0 
+//Day of week Sunday is day 0
 int getNTPday(){
-  return weekday();  
+  return weekday();
 }
 //Hour of day
 int getNTPhour(){
@@ -146,5 +148,3 @@ void initNTP() {
   SERIAL_OUT.print("waiting for sync");
   setSyncProvider(getNtpTime);
 }
-
-
