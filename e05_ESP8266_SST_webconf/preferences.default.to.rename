@@ -1,3 +1,6 @@
+#ifndef PREFERENCES_H
+#define PREFERENCES_H
+
 #include <Arduino.h>
 
 //LAYOUT
@@ -87,38 +90,22 @@
 #define ACTIVATETOPICSPAGE 0
 #define TOPICSPAGESNUMBER 2 // 1 if you have less than 3 topics subscribed, 2 if you have more than 3 topics subscribed
 
-//ucg.setColor(255, 255, 255);    // White
-//ucg.setColor(255, 0, 0); // Red
-//ucg.setColor(255, 255, 102);    // Yellow
-//ucg.setColor(0, 255, 255);   //light blue
+typedef struct {
+  int labelColor[3];
+  String unity;
+  String text;
+  int textColor[3];
 
-#define C1_COLOR()  ucg.setColor(255, 0, 0); // Red
-#define C1_AREA_UNITY "W"
-#define C1_AREA_TEXT " Grid"
-#define C1_AREA_TEXT_COLOR_LAYOUT2() ucg.setColor(255, 0, 0); //red
+} topicsLayout_t;
 
-#define C2_COLOR()  ucg.setColor(255, 255, 102);    // Yellow
-#define C2_AREA_UNITY "W"
-#define C2_AREA_TEXT " Solar"
-#define C2_AREA_TEXT_COLOR_LAYOUT2() ucg.setColor(255, 0, 0); //red
+const topicsLayout_t topicsLayout[6] = {
+  /* text color                   ,unit, lablel,   label color */
+  { {255,  0,  0} /* Red */       , "W", " Grid",  {255,  0,  0} /* Red */ },
+  { {255,255,102} /* Yellow */    , "W", " Solar", {255,  0,  0} /* Red */ },
+  { {  0,255,255} /* Light Blue */, "°", " Boil",  {255,  0,  0} /* Red */ },
+  { {255,255,255} /* White */     , "'", " topic", {255,  0,  0} /* Red */ },
+  { {255,255,255} /* White */     , "'", " topic", {255,  0,  0} /* Red */ },
+  { {255,255,255} /* White */     , "'", " topic", {255,  0,  0} /* Red */ },
+};
 
-#define C3_COLOR()  ucg.setColor(0, 255, 255);   //light blue
-#define C3_AREA_UNITY "^C" 
-#define C3_AREA_TEXT " Boil"
-#define C3_AREA_TEXT_COLOR_LAYOUT2() ucg.setColor(255, 0, 0); //red
-
-#define C4_COLOR()  ucg.setColor(255, 255, 255);    // White
-#define C4_AREA_UNITY "'"
-#define C4_AREA_TEXT " topic"
-#define C4_AREA_TEXT_COLOR_LAYOUT2() ucg.setColor(255, 0, 0); //red
-
-#define C5_COLOR()  ucg.setColor(255, 255, 255);     // White
-#define C5_AREA_UNITY "'"
-#define C5_AREA_TEXT " topic"
-#define C5_AREA_TEXT_COLOR_LAYOUT2() ucg.setColor(255, 0, 0); //red
-
-#define C6_COLOR()  ucg.setColor(255, 255, 255);    // White
-#define C6_AREA_UNITY "'"
-#define C6_AREA_TEXT " topic"
-#define C6_AREA_TEXT_COLOR_LAYOUT2() ucg.setColor(255, 0, 0); //red
-
+#endif

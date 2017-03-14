@@ -83,12 +83,8 @@ int backLEDvalueLOW = BRIGHT_MIN_DEFAULT;
 bool FADE = 1;
 uint8_t mypayload_len = 0;
 uint8_t mypayload[2];
-float fTopic_C1_Output;
-float fTopic_C2_Output;
-float fTopic_C3_Output;
-float fTopic_C4_Output;
-float fTopic_C5_Output;
-float fTopic_C6_Output;
+
+float fTopic_Output[6] = {};
 
 boolean bChildLock = false;
 
@@ -119,7 +115,6 @@ bool B_powerfull_WBS=0;
 bool B_is_away_WBS=0;
 bool B_is_powerfull_WBS=0;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 void setup()
 {
@@ -445,7 +440,7 @@ void loop()
       // Update topics in layout2 home page
       if (getLayout2()) {
         if (ACTIVATETOPICSPAGE == 1 && SSTPage.actualPage == PAGE_HOME) {
-          displayTopicsHomePageLayout2(ucg, fTopic_C1_Output, fTopic_C2_Output, fTopic_C3_Output, fTopic_C4_Output, fTopic_C5_Output, fTopic_C6_Output);
+          displayTopicsHomePageLayout2(ucg, fTopic_Output, /* forcerefresh */ false);
         }
       }
     }
@@ -585,7 +580,7 @@ void loop()
             //TOPICS PAGE n.1
             //************************************************
             if (ACTIVATETOPICSPAGE == 1) {
-              displayTopics(ucg, fTopic_C1_Output, fTopic_C2_Output, fTopic_C3_Output);
+              displayTopics(ucg, 0, fTopic_Output);
             }
             break;
 
@@ -594,7 +589,7 @@ void loop()
             //TOPICS PAGE n.2
             //************************************************
             if (ACTIVATETOPICSPAGE == 1) {
-              displayTopicsPage2(ucg, fTopic_C4_Output, fTopic_C5_Output, fTopic_C6_Output);
+              displayTopics(ucg, 3, fTopic_Output);
             }
             break;
         }
@@ -643,7 +638,7 @@ void loop()
             display_layout2_print_circle_green(ucg);
 
             if (ACTIVATETOPICSPAGE == 1) {
-              alwaysdisplayTopicsHomePageLayout2(ucg, fTopic_C1_Output, fTopic_C2_Output, fTopic_C3_Output, fTopic_C4_Output, fTopic_C5_Output, fTopic_C6_Output);
+              displayTopicsHomePageLayout2(ucg, fTopic_Output, /* forcerefresh */ true);
             }
 
           }
@@ -698,7 +693,7 @@ void loop()
             display_layout2_print_datetime(ucg);
             display_layout2_print_circle_green(ucg);
             if (ACTIVATETOPICSPAGE == 1) {
-              alwaysdisplayTopicsHomePageLayout2(ucg, fTopic_C1_Output, fTopic_C2_Output, fTopic_C3_Output, fTopic_C4_Output, fTopic_C5_Output, fTopic_C6_Output);
+              displayTopicsHomePageLayout2(ucg, fTopic_Output, /* forcerefresh */ true);
             }
           }
       }
@@ -729,33 +724,31 @@ void loop()
 }
 
 
-void SST_Reset() {  
+void SST_Reset() {
+#if(DYNAMIC_CONNECTION)
+  // Erase network configuration parameters from previous use of ZeroConf
+  SERIAL_OUT.println("Store_Init");
+  Store_Init();
+  SERIAL_OUT.println("Store_Clear");
+  Store_Clear();
+  SERIAL_OUT.println("Store_Commit");
+  Store_Commit();
+  SERIAL_OUT.println("OK");
+#endif
+
   spiffs_Reset();
   ESP.reset();
 }
 
 void subscribeTopics() {
-  if (sbscrbdata(TOPIC1, mypayload, &mypayload_len)) {
-    float32((uint16_t*) mypayload,  &fTopic_C1_Output);
-    SERIAL_OUT.print("TOPIC1: "); SERIAL_OUT.println(fTopic_C1_Output);
-  } else if (sbscrbdata(TOPIC2, mypayload, &mypayload_len)) {
-    float32((uint16_t*) mypayload,  &fTopic_C2_Output);
-    SERIAL_OUT.print("TOPIC2: "); SERIAL_OUT.println(fTopic_C2_Output);
-  } else if (sbscrbdata(TOPIC3, mypayload, &mypayload_len)) {
-    float32((uint16_t*) mypayload,  &fTopic_C3_Output);
-    SERIAL_OUT.print("TOPIC3: "); SERIAL_OUT.println(fTopic_C3_Output);
-  } else if (sbscrbdata(TOPIC4, mypayload, &mypayload_len)) {
-    float32((uint16_t*) mypayload,  &fTopic_C4_Output);
-    SERIAL_OUT.print("TOPIC4: "); SERIAL_OUT.println(fTopic_C4_Output);
-  } else if (sbscrbdata(TOPIC5, mypayload, &mypayload_len)) {
-    float32((uint16_t*) mypayload,  &fTopic_C5_Output);
-    SERIAL_OUT.print("TOPIC5: "); SERIAL_OUT.println(fTopic_C5_Output);
-  } else if (sbscrbdata(TOPIC6, mypayload, &mypayload_len)) {
-    float32((uint16_t*) mypayload,  &fTopic_C6_Output);
-    SERIAL_OUT.print("TOPIC6: "); SERIAL_OUT.println(fTopic_C6_Output);
+  for (int t=0; t < 6; t++) {
+    if (Souliss_SubscribeData(memory_map, TOPICS[t][0], TOPICS[t][1], mypayload, &mypayload_len)) {
+      float32((uint16_t*) mypayload,  &fTopic_Output[t]);
+      SERIAL_OUT.println("TOPIC" + String(t) + ": " + fTopic_Output[t]);
+      break;
+    }
   }
 }
-
 
 void setSoulissDataChanged() {
   if (data_changed != Souliss_TRIGGED) {
@@ -845,7 +838,7 @@ void initScreen() {
     display_layout2_print_circle_white(ucg);
     display_layout2_print_datetime(ucg);
     if (ACTIVATETOPICSPAGE == 1) {
-      alwaysdisplayTopicsHomePageLayout2(ucg, fTopic_C1_Output, fTopic_C2_Output, fTopic_C3_Output, fTopic_C4_Output, fTopic_C5_Output, fTopic_C6_Output);
+	  displayTopicsHomePageLayout2(ucg, fTopic_Output, /* forcerefresh */ true);
     }
     display_layout2_print_circle_black(ucg);
     yield();
