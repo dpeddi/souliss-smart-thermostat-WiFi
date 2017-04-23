@@ -16,6 +16,10 @@
        https://github.com/esp8266/Arduino
 
 ***************************************************************************/
+
+#ifndef CONNECTION_STATIC_H
+#define CONNECTION_STATIC_H
+
 uint8_t static_ip_address[4]  = {STATIC_IP}; 
 uint8_t static_subnet_mask[4] = {STATIC_SUBNET};
 uint8_t static_ip_gateway[4]  = {STATIC_IP_GW}; 
@@ -40,3 +44,4 @@ uint8_t static_ip_gateway[4]  = {STATIC_IP_GW};
 #define STATIC_CONNECTION_fast()       \
 FAST_PeerComms();\
 
+#endif

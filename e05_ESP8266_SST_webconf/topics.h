@@ -1,3 +1,6 @@
+#ifndef TOPICS_H
+#define TOPICS_H
+
 #include <Arduino.h>
 
 //PUBLISH&SUBSCRIBE TOPICS
@@ -17,3 +20,5 @@ U8 HEAT_OFF = 0X00;
 //  ES:
 //#define TEMPERATURE_TOPIC_NODE_DHT_RELE 0xF001,0x15
 //#define HUMIDITY_TOPIC_NODE_DHT_RELE 0xF001,0x16
+
+#endif

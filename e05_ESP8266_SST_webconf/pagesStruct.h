@@ -1,3 +1,6 @@
+#ifndef PAGESTRUCT_H
+#define PAGESTRUCT_H
+
 #include <Arduino.h>
 #define PAGE_HOME 0
 #define PAGE_TOPICS1 1
@@ -13,3 +16,6 @@ typedef struct {
 
 
 void resetNeedRefresh(Page P);
+
+#endif
+
