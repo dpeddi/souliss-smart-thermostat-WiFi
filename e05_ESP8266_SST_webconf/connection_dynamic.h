@@ -21,10 +21,10 @@
   if (!ReadIPConfiguration()) \
   { \
     /** Start the node as access point with a configuration WebServer */ \
-    SetAccessPoint();\
+	String ap = SetAccessPoint();\
     startWebServer();\
     SERIAL_OUT.println("display_print_splash_waiting_need_configuration"); \
-    display_print_splash_waiting_need_configuration(ucg); \
+    display_print_splash_waiting_need_configuration(ucg, ap); \
     /** We have nothing more than the WebServer for the configuration */ \
     /** to run, once configured the node will quit this. */ \
     while (1) \

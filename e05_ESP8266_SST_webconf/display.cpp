@@ -237,7 +237,7 @@ void display_print_splash_screen(Ucglib_ILI9341_18x240x320_HWSPI ucg) {
   ucg.clearScreen();
 }
 
-void display_print_splash_waiting_need_configuration(Ucglib_ILI9341_18x240x320_HWSPI ucg) {
+void display_print_splash_waiting_need_configuration(Ucglib_ILI9341_18x240x320_HWSPI ucg, String ap) {
   SERIAL_OUT.println("display_print_splash_waiting_need_configuration");
   ucg.setColor(0, 255, 255, 255);    // Bianco
   ucg.setFontMode(UCG_FONT_MODE_SOLID);
@@ -251,6 +251,9 @@ void display_print_splash_waiting_need_configuration(Ucglib_ILI9341_18x240x320_H
   ucg.setPrintPos(4, 118);
   ucg.print("IP ");
   ucg.print(WiFi.softAPIP());
+  ucg.setPrintPos(4, 148);
+  ucg.setFont(FONT_SMALL);
+  ucg.print(String("SSID ") + ap);
 }
 
 void display_print_splash_waiting_connection_gateway(Ucglib_ILI9341_18x240x320_HWSPI ucg) {
