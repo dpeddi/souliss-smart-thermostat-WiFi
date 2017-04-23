@@ -692,8 +692,8 @@ void ReadCronoMatrixSPIFFS() {
     for (byte gS = 0; gS < 48; gS++) {
       dHourSel[dS][gS] = rootcronomatrix_inlettura["cronomatrix"][ii];
       byte pS = dHourSel[dS][gS];
-      Serial.print("Reading from SPIFFS : "); Serial.print(" day "); Serial.print(dS); Serial.print(" hour/2 "); Serial.print(gS); Serial.print(" value "); Serial.println(pS);
-      delay(1);
+      //Serial.print("Reading from SPIFFS : "); Serial.print(" day "); Serial.print(dS); Serial.print(" hour/2 "); Serial.print(gS); Serial.print(" value "); Serial.println(pS);
+      //delay(1);
       ii++;
     }
     gS = 0;
